@@ -132,11 +132,11 @@ help() {
       <div className="App">
         <header className="App-header">
           <h1>Criss-Cross Game</h1>
-               <h4
+               <h5
             className={`game-start-message ${this.state.gameStarted ? 'hidden' : ''}`}
           >
             You can press any buttons to start the game
-          </h4>
+          </h5>
           <h2>{status}</h2>
         </header>
         <main>

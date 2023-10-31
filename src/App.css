@@ -4,8 +4,11 @@
   padding: 2rem;
   text-align: center;
 }
-h1, h2, h4{
+h1, h2, h5{
   color: #6C4D4E;
+}
+h5{
+  font-style: italic;
 }
 
 .card {
