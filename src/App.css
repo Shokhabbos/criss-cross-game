@@ -1,0 +1,50 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+.card {
+  padding: 2em;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  margin: 20px auto;
+  max-width: 300px;
+}
+
+.cell {
+  background-color: white;
+  border: 1px solid black;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+button {
+  margin: 10px;
+  padding: 8px 16px;
+  font-size: 16px;
+  min-height: 54px;
+}
+
+.action-button {
+  margin: 10px;
+  padding: 8px 16px;
+  font-size: 16px;
+  background-color: #203446;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action-button.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
