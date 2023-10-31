@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
 class Cell extends Component {
   render() {
@@ -36,9 +36,9 @@ class App extends Component {
     super(props);
     this.state = {
       board: Array(9).fill(null),
-      currentPlayer: 'X',
+      currentPlayer: "X",
       winner: null,
-      gameStarted:false
+      gameStarted: false,
     };
   }
 
@@ -49,8 +49,8 @@ class App extends Component {
     if (winner || board[i]) {
       return;
     }
-     if (!this.state.gameStarted) {
-      this.setState({ gameStarted: true }); 
+    if (!this.state.gameStarted) {
+      this.setState({ gameStarted: true });
     }
 
     board[i] = this.state.currentPlayer;
@@ -62,7 +62,7 @@ class App extends Component {
 
   togglePlayer() {
     this.setState({
-      currentPlayer: this.state.currentPlayer === 'X' ? 'O' : 'X',
+      currentPlayer: this.state.currentPlayer === "X" ? "O" : "X",
     });
   }
 
@@ -89,51 +89,61 @@ class App extends Component {
     }
 
     if (this.state.board.every((cell) => cell)) {
-      this.setState({ winner: 'draw' });
+      this.setState({ winner: "draw" });
     }
   }
 
   resetGame() {
     this.setState({
       board: Array(9).fill(null),
-      currentPlayer: 'X',
+      currentPlayer: "X",
       winner: null,
     });
   }
 
-help() {
-  const board = this.state.board.slice();
-  const emptyCells = [];
+  help() {
+    const board = this.state.board.slice();
+    const emptyCells = [];
 
-  for (let i = 0; i < board.length; i++) {
-    if (!board[i]) {
-      emptyCells.push(i);
+    for (let i = 0; i < board.length; i++) {
+      if (!board[i]) {
+        emptyCells.push(i);
+      }
+    }
+
+    if (emptyCells.length > 0) {
+      const randomCell =
+        emptyCells[Math.floor(Math.random() * emptyCells.length)];
+      board[randomCell] = this.state.currentPlayer;
+      this.setState({ board: board }, () => {
+        this.checkWinner();
+        this.togglePlayer();
+      });
+    } else {
+      this.setState({ winner: "draw" });
     }
   }
-
-  if (emptyCells.length > 0) {
-    const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-    board[randomCell] = this.state.currentPlayer;
-    this.setState({ board: board }, () => {
-      this.checkWinner();
-      this.togglePlayer();
-    });
-  } else {
-    this.setState({ winner: 'draw' });
-  }
-}
- render() {
+  render() {
     const currentPlayer = this.state.currentPlayer;
     const winner = this.state.winner;
-    const status = winner ? `Player: ${winner} wins!` : `Player:${currentPlayer === 'X' ? 'X' : 'O'}`;
-    const isGameFinished = winner !== null || this.state.board.every((cell) => cell);
+    const status = winner
+      ? `Player: ${winner} wins!`
+      : `Player:${currentPlayer === "X" ? "X" : "O"}`;
+    const isGameFinished =
+      winner !== null || this.state.board.every((cell) => cell);
 
     return (
       <div className="App">
         <header className="App-header">
-          <h1>Criss-Cross Game</h1>
-               <h5
-            className={`game-start-message ${this.state.gameStarted ? 'hidden' : ''}`}
+          <h1>
+            <a href="https://github.com/Shokhabbos/criss-cross-game">
+              Criss-Cross Game
+            </a>
+          </h1>
+          <h5
+            className={`game-start-message ${
+              this.state.gameStarted ? "hidden" : ""
+            }`}
           >
             You can press any buttons to start the game
           </h5>
@@ -144,15 +154,12 @@ help() {
             board={this.state.board}
             onClick={(i) => this.handleClick(i)}
           />
-          <button
-            onClick={() => this.resetGame()}
-            className="action-button"
-          >
+          <button onClick={() => this.resetGame()} className="action-button">
             New Game
           </button>
           <button
             onClick={() => this.help()}
-            className={`action-button ${isGameFinished ? 'disabled' : ''}`}
+            className={`action-button ${isGameFinished ? "disabled" : ""}`}
             disabled={isGameFinished}
           >
             Help
@@ -162,6 +169,5 @@ help() {
     );
   }
 }
-
 
 export default App;
