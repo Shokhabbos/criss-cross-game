@@ -121,7 +121,7 @@ help() {
  render() {
   const currentPlayer = this.state.currentPlayer;
   const winner = this.state.winner;
-  const status = winner ? `Player ${winner} wins!` : `Player  (${currentPlayer === 'X' ? 'X' : 'O'})`;
+  const status = winner ? `Player: ${winner} wins!` : `Player:${currentPlayer === 'X' ? 'X' : 'O'}`;
   const isGameFinished = winner !== null || this.state.board.every((cell) => cell);
 
   return (
