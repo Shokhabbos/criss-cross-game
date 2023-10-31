@@ -52,3 +52,9 @@ button {
   cursor: not-allowed;
 
 }
+/* App.css */
+
+.game-start-message.hidden {
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}

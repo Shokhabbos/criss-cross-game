@@ -38,6 +38,7 @@ class App extends Component {
       board: Array(9).fill(null),
       currentPlayer: 'X',
       winner: null,
+      gameStarted:false
     };
   }
 
@@ -47,6 +48,9 @@ class App extends Component {
 
     if (winner || board[i]) {
       return;
+    }
+     if (!this.state.gameStarted) {
+      this.setState({ gameStarted: true }); 
     }
 
     board[i] = this.state.currentPlayer;
@@ -119,40 +123,45 @@ help() {
   }
 }
  render() {
-  const currentPlayer = this.state.currentPlayer;
-  const winner = this.state.winner;
-  const status = winner ? `Player: ${winner} wins!` : `Player:${currentPlayer === 'X' ? 'X' : 'O'}`;
-  const isGameFinished = winner !== null || this.state.board.every((cell) => cell);
+    const currentPlayer = this.state.currentPlayer;
+    const winner = this.state.winner;
+    const status = winner ? `Player: ${winner} wins!` : `Player:${currentPlayer === 'X' ? 'X' : 'O'}`;
+    const isGameFinished = winner !== null || this.state.board.every((cell) => cell);
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Criss-Cross Game</h1>
-        <h4>You can press any buttons to start the game</h4>
-        <h2>{status}</h2>
-      </header>
-      <main>
-        <Board
-          board={this.state.board}
-          onClick={(i) => this.handleClick(i)}
-        />
-        <button
-          onClick={() => this.resetGame()}
-          className="action-button"
-        >
-          New Game
-        </button>
-        <button
-          onClick={() => this.help()}
-          className={`action-button ${isGameFinished ? 'disabled' : ''}`}
-          disabled={isGameFinished}
-        >
-          Help
-        </button>
-      </main>
-    </div>
-  );
+    return (
+      <div className="App">
+        <header className="App-header">
+          <h1>Criss-Cross Game</h1>
+               <h4
+            className={`game-start-message ${this.state.gameStarted ? 'hidden' : ''}`}
+          >
+            You can press any buttons to start the game
+          </h4>
+          <h2>{status}</h2>
+        </header>
+        <main>
+          <Board
+            board={this.state.board}
+            onClick={(i) => this.handleClick(i)}
+          />
+          <button
+            onClick={() => this.resetGame()}
+            className="action-button"
+          >
+            New Game
+          </button>
+          <button
+            onClick={() => this.help()}
+            className={`action-button ${isGameFinished ? 'disabled' : ''}`}
+            disabled={isGameFinished}
+          >
+            Help
+          </button>
+        </main>
+      </div>
+    );
+  }
 }
-}
+
 
 export default App;
