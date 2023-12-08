@@ -1,37 +1,14 @@
-import React, { Component } from "react";
-import "./App.css";
+// App.jsx
+import React from "react";
+import Board from "./components/Board";
+import {
+  help,
+  resetGame,
+  togglePlayer,
+  checkWinner,
+} from "./helpers/gameHelper";
 
-class Cell extends Component {
-  render() {
-    return (
-      <button className="cell" onClick={this.props.onClick}>
-        {this.props.value}
-      </button>
-    );
-  }
-}
-
-class Board extends Component {
-  renderCell(i) {
-    return (
-      <Cell
-        key={`cell-${i}`}
-        value={this.props.board[i]}
-        onClick={() => this.props.onClick(i)}
-      />
-    );
-  }
-
-  render() {
-    return (
-      <div className="board">
-        {this.props.board.map((_, i) => this.renderCell(i))}
-      </div>
-    );
-  }
-}
-
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,75 +32,19 @@ class App extends Component {
     const newBoard = [...board];
     newBoard[i] = currentPlayer;
 
-    this.setState({ board: newBoard }, () => {
-      this.checkWinner();
-      this.togglePlayer();
-    });
-  };
-
-  togglePlayer = () => {
     this.setState({
-      currentPlayer: this.state.currentPlayer === "X" ? "O" : "X",
+      board: newBoard,
+      ...checkWinner(newBoard),
+      currentPlayer: togglePlayer(currentPlayer),
     });
-  };
-
-  checkWinner = () => {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
-    const { board } = this.state;
-
-    const winnerLine = lines.find(
-      ([a, b, c]) => board[a] && board[a] === board[b] && board[a] === board[c]
-    );
-
-    if (winnerLine) {
-      const [a] = winnerLine;
-      this.setState({ winner: board[a] });
-      return;
-    }
-
-    if (board.every(Boolean)) {
-      this.setState({ winner: "draw" });
-    }
   };
 
   resetGame = () => {
-    this.setState({
-      board: Array(9).fill(null),
-      currentPlayer: "X",
-      winner: null,
-    });
+    this.setState(resetGame());
   };
 
   help = () => {
-    const { board, currentPlayer } = this.state;
-    const emptyCells = board
-      .map((cell, i) => (!cell ? i : null))
-      .filter((el) => el !== null);
-
-    if (emptyCells.length > 0) {
-      const randomCell =
-        emptyCells[Math.floor(Math.random() * emptyCells.length)];
-      const newBoard = board.map((cell, i) =>
-        i === randomCell ? currentPlayer : cell
-      );
-
-      this.setState({ board: newBoard }, () => {
-        this.checkWinner();
-        this.togglePlayer();
-      });
-    } else {
-      this.setState({ winner: "draw" });
-    }
+    this.setState(help(this.state));
   };
 
   render() {
