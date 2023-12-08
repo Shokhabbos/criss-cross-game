@@ -1,4 +1,3 @@
-// GameHelpers.js
 export const help = (state) => {
   const { board, currentPlayer } = state;
   const emptyCells = board
